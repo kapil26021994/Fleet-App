@@ -1,0 +1,102 @@
+<ion-header>
+  <ion-toolbar>
+    <ion-buttons slot="start">
+      <ion-back-button text="" icon="arrow-back-outline"></ion-back-button>
+    </ion-buttons>
+    <ion-title *ngIf="!currentPage">Edit Group</ion-title>
+    <ion-title *ngIf="currentPage">Add Group</ion-title>
+  </ion-toolbar>
+</ion-header>
+<ion-content fullscreen>
+  <form class="container" (ngSubmit)="addVehicle(f)" #f="ngForm" *ngIf="currentPage">
+    <div class="form-group">
+      <mat-form-field appearance="fill" fxFlex="40">
+        <mat-label>Select Company</mat-label>
+        <mat-select name="contactMethod" id="contactMethod" [(ngModel)]="groupAdd.companyName"
+          (ngModelChange)="updateDataViaKey($event)" #companyName="ngModel"
+          [ngClass]="{ 'is-invalid': f.submitted && companyName.invalid }" required>
+          <input class="example-input" placeholder="search " (keyup)="search($event.target.value)">
+          <mat-option *ngFor="let company of companyList" [value]="company.companyName">{{ company.companyName }}
+          </mat-option>
+        </mat-select>
+        <mat-error *ngIf="f.submitted && companyName.invalid">
+          <div *ngIf="companyName.errors.required">Company is required</div>
+        </mat-error>
+      </mat-form-field>
+    </div>
+    <div class="form-group">
+      <label>Group Name<span class="validation-symbol">*</span></label>
+      <input type="text" class="form-control" name="groupName" [(ngModel)]="groupAdd.groupName" #groupName="ngModel"
+        placeholder="Enter Group Name" [ngClass]="{ 'is-invalid': f.submitted && groupName.invalid }" required />
+      <div *ngIf="f.submitted && groupName.invalid" class="invalid-feedback">
+        <div *ngIf="groupName.errors.required">Group Name is required</div>
+      </div>
+    </div>
+    <div class="form-group">
+      <mat-form-field appearance="fill" fxFlex="40">
+        <mat-label>App Permission</mat-label><br>
+        <mat-select disableOptionCentering multiple [(ngModel)]="selectedPermission" placeholder="Vehicle Type" multiple
+          name="permission" #permission="ngModel" [ngClass]="{ 'is-invalid': f.submitted && permission.invalid }"
+          required>
+          <mat-optgroup *ngFor="let permission of permissionList" [label]="permission.name">
+            <mat-option *ngFor="let permission_name of permission.items" [value]="permission_name.lable"
+              (onSelectionChange)="optionSelected($event,permission_name.lable,permission)">
+              {{permission_name.lable}}
+            </mat-option>
+          </mat-optgroup>
+        </mat-select>
+        <mat-error *ngIf="f.submitted && permission.invalid">
+          <div *ngIf="permission.errors.required">permission is required</div>
+        </mat-error>
+      </mat-form-field>
+    </div>
+    <div class="form-group">
+      <label>Active</label>
+      <input type="checkbox" name="isActive" class="form-check" [(ngModel)]="groupAdd.isActive">
+    </div>
+  </form>
+  <form class="container" *ngIf="!currentPage">
+    <div class="form-group">
+      <label>Select Company <span class="validation-symbol">*</span></label>
+      <mat-form-field fxFlex="40" class="field-wrapper app-permission">
+        <mat-select [disabled]="!isEdit" name="contactMethod" id="contactMethod"
+          [(ngModel)]="currentGroupDetail.company.companyName">
+          <input class="example-input" placeholder="search " (keyup)="search($event.target.value)">
+          <mat-option *ngFor="let company of companyList" [value]="company.companyName">{{ company.companyName }}
+          </mat-option>
+        </mat-select>
+      </mat-form-field>
+    </div>
+    <div class="form-group">
+      <label>Group Name <span class="validation-symbol">*</span></label>
+      <input name="groupName" [(ngModel)]="currentGroupDetail.groupName" [disabled]="!isEdit"
+        class="form-control" type="text" tabindex="1" required>
+    </div>
+    <div class="form-group">
+      <label>App Permission <span class="validation-symbol">*</span></label>
+      <mat-form-field fxFlex="40" class="field-wrapper app-permission">
+        <mat-select [(ngModel)]="modelGroup" [disabled]="!isEdit" #itemSelect="ngModel" name="permission" multiple>
+          <!-- Loop through each group via the groups array -->
+          <mat-optgroup *ngFor="let group of totalPermissionList" [label]="group.name">
+            <mat-option *ngFor="let item of group.items" [value]="item.value"
+              (onSelectionChange)="optionSelected($event,item.lable,group)">
+              {{item.value}}
+            </mat-option>
+          </mat-optgroup>
+        </mat-select>
+      </mat-form-field>
+    </div>
+    <div class="form-group">
+      <label>Is Active</label>
+      <input [(ngModel)]="isEditData" [disabled]="!isEdit" class="form-input text-right" type="checkbox"
+        name="isActive">
+    </div>
+  </form>
+</ion-content>
+<ion-footer class="ion-no-border d-flex animate__animated animate__fadeInUp" *ngIf="!currentPage">
+  <ion-button color="danger" size="large" shape="block" class="btn end" (click)="commonDataService.deleteDriver(this.currentGroupDetail.id)">
+    Delete</ion-button>
+  <ion-button color="success" size="large" shape="block" class="btn end" *ngIf="!isEdit" (click)="toggleEditForm()">Edit
+  </ion-button>
+  <ion-button color="success" size="large" shape="block" class="btn end" *ngIf="isEdit" (click)="updateGroupInfo()">Save</ion-button>
+</ion-footer>

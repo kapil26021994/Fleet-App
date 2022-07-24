@@ -1,0 +1,287 @@
+<ion-header>
+	<ion-toolbar>
+		<ion-buttons slot="start">
+				<ion-back-button text="" icon="arrow-back-outline"></ion-back-button>
+		</ion-buttons>
+		<ion-title *ngIf="!currentPage">Edit Vehicle</ion-title>
+		<ion-title *ngIf="currentPage">Add Vehicle</ion-title>
+		
+	</ion-toolbar>
+</ion-header>
+
+<ion-content fullscreen> 
+    <form class="container" (ngSubmit)="addVehicle(f)" #f="ngForm" *ngIf="currentPage">
+		<div class="form-container">
+			<div class="form-group">
+				<mat-form-field appearance="fill" fxFlex="40" class="field-wrapper app-permission" >
+				<mat-label >Select Company</mat-label>
+				<mat-select name="contactMethod"  id="contactMethod"  [(ngModel)]="vehicleData.companyName"  (ngModelChange)="updateDataViaKey($event,'company')"
+				#companyName="ngModel"  [ngClass]="{ 'is-invalid': f.submitted && companyName.invalid }" required>
+					<mat-option *ngFor="let company of companyList"  [value]="company.companyName">{{ company.companyName }}</mat-option>
+				</mat-select>
+				<mat-error *ngIf="f.submitted && companyName.invalid">
+					<div *ngIf="companyName.errors.required">Company is required</div>
+				</mat-error> 
+				</mat-form-field>
+			</div>
+			<div class="form-group">
+			<label >Vehicle Number</label>
+				<input type="text" class="form-control" name="vehicleNumber" [(ngModel)]="vehicleData.vehicleNumber" #vehicleNumber="ngModel" 
+				placeholder="Enter Vehicle Name" [ngClass]="{ 'is-invalid': f.submitted && vehicleNumber.invalid }" required />
+				<div *ngIf="f.submitted && vehicleNumber.invalid" class="invalid-feedback">
+					<div *ngIf="vehicleNumber.errors.required">Number is required</div>
+				</div>
+			</div>
+			<div class="form-group">
+				<label>Vehicle Type</label>
+				<mat-form-field appearance="fill" fxFlex="40" class="field-wrapper app-permission" >
+				<mat-label >Vehicle Type</mat-label>
+				<mat-select name="vehicleType" [(ngModel)]="vehicleData.vehicleType"  (ngModelChange)="updateDataViaKey($event,'')"
+				#vehicleType="ngModel"  [ngClass]="{ 'is-invalid': f.submitted && vehicleType.invalid }" required>
+					<mat-option *ngFor="let vehicle of vehicleTypeList" [value]="vehicle.vehicleType">  {{ vehicle.vehicleType}}</mat-option>
+				</mat-select>
+				<mat-error *ngIf="f.submitted && vehicleType.invalid">
+					<div *ngIf="vehicleType.errors.required">Company is required</div>
+				</mat-error> 
+				</mat-form-field>
+			</div>
+			<div class="form-group">
+			<label>Model Name</label>
+				<input type="text" class="form-control" name="modelName" [(ngModel)]="vehicleData.modelName" #modelName="ngModel" 
+				placeholder="Enter Model Name" [ngClass]="{ 'is-invalid': f.submitted && modelName.invalid }" required />
+				<div *ngIf="f.submitted && modelName.invalid" class="invalid-feedback">
+				<div *ngIf="modelName.errors.required">Model Name is required</div>
+			</div>
+			</div>
+			<div class="form-group">
+			<label >Vehicle Manufacturing Company Name</label>
+				<input type="text" class="form-control" name="vehicleManufacturing" [(ngModel)]="vehicleData.vehicleManufacturingCompanyName" #vehicleManufacturing="ngModel" 
+				placeholder="Vehicle Manufacturing Company Name" [ngClass]="{ 'is-invalid': f.submitted && vehicleManufacturing.invalid }" required />
+				<div *ngIf="f.submitted && vehicleManufacturing.invalid" class="invalid-feedback">
+				<div *ngIf="vehicleManufacturing.errors.required">Vehicle Manufacturing Company Name is required</div>
+				</div>
+			</div>
+			<div class="form-group">
+			<label >Max Speed</label>
+				<input type="text" class="form-control" name="maxSpeed" [(ngModel)]="vehicleData.maxSpeed" #maxSpeed="ngModel" 
+				placeholder="Max Speed" [ngClass]="{ 'is-invalid': f.submitted && maxSpeed.invalid }" required />
+				<div *ngIf="f.submitted && maxSpeed.invalid" class="invalid-feedback">
+				<div *ngIf="maxSpeed.errors.required">Max Speed is required</div>
+				</div>
+			</div>
+			<div class="form-group">
+				<label>Fuel Type</label>
+				<mat-form-field appearance="fill" fxFlex="40" class="field-wrapper app-permission" >
+				<mat-label >Fuel Type</mat-label>
+				<mat-select name="fuelType" [(ngModel)]="vehicleData.fuelType"  (ngModelChange)="updateDataViaKey($event,'')"
+				#fuelType="ngModel"  [ngClass]="{ 'is-invalid': f.submitted && fuelType.invalid }" required>
+					<mat-option *ngFor="let fuel of fuelTypeList" [value]="fuel.fuelType"> {{ fuel.fuelType}}</mat-option>
+				</mat-select>
+				<mat-error *ngIf="f.submitted && fuelType.invalid">
+					<div *ngIf="fuelType.errors.required">Fuel Type is required</div>
+				</mat-error> 
+				</mat-form-field>
+			</div>
+			<div class="form-group">
+				<label>Device Type</label>
+				<mat-form-field appearance="fill" fxFlex="40" class="field-wrapper app-permission" >
+				<mat-label >Device Type</mat-label>
+				<mat-select name="device" [(ngModel)]="vehicleData.deviceType"
+				#deviceType="ngModel"  [ngClass]="{ 'is-invalid': f.submitted && deviceType.invalid }" required>
+					<mat-option *ngFor="let device of deviceList" [value]="device.deviceType"> {{ device.deviceType}}</mat-option>
+				</mat-select>
+				<mat-error *ngIf="f.submitted && deviceType.invalid">
+					<div *ngIf="deviceType.errors.required">Device Type is required</div>
+				</mat-error> 
+				</mat-form-field>
+			</div>
+			<div class="form-group">
+			<label >Tank Capacity</label>
+				<input type="text" class="form-control" name="tankCapacity" [(ngModel)]="vehicleData.tankCapacity" #tankCapacity="ngModel" 
+				placeholder="Tank Capacity" [ngClass]="{ 'is-invalid': f.submitted && tankCapacity.invalid }" required />
+				<div *ngIf="f.submitted && tankCapacity.invalid" class="invalid-feedback">
+				<div *ngIf="tankCapacity.errors.required">Tank Capacity is required</div>
+				</div>
+			</div>
+	
+			<div class="form-group">
+			<label>Purchase Year</label>
+				<input type="date" name="purchaseYear"  class="form-control date-picker-position"  [(ngModel)]="vehicleData.purchaseYear" #purchaseYear="ngModel" 
+				placeholder="Purchase Year" [ngClass]="{ 'is-invalid': f.submitted && purchaseYear.invalid }" required >
+				<div *ngIf="f.submitted && purchaseYear.invalid" class="invalid-feedback">
+				<div *ngIf="purchaseYear.errors.required">Purchase Year is required</div>
+				</div>
+			</div>
+	
+			<div class="form-group">
+			<label>Idle Mileage</label>
+				<input type="text" class="form-control" name="idleMileage" [(ngModel)]="vehicleData.idleMileage" #idleMileage="ngModel" 
+				placeholder="Idle Mileage" [ngClass]="{ 'is-invalid': f.submitted && idleMileage.invalid }" required />
+				<div *ngIf="f.submitted && idleMileage.invalid" class="invalid-feedback">
+				<div *ngIf="idleMileage.errors.required">Idle Mileage is required</div>
+				</div>
+			</div>
+			
+			<div class="form-group">
+			<label>Insurance Renewal Date</label>
+			<input type="date" class="form-control date-picker-position" name="insuranceRenewalDate" [(ngModel)]="vehicleData.insuranceRenewalDate" #insuranceRenewalDate="ngModel" 
+			placeholder="Idle Mileage" [ngClass]="{ 'is-invalid': f.submitted && insuranceRenewalDate.invalid }" required />
+			<div *ngIf="f.submitted && insuranceRenewalDate.invalid" class="invalid-feedback">
+				<div *ngIf="insuranceRenewalDate.errors.required">Insurance Renewal Date is required</div>
+			</div>
+			</div>
+			<div class="form-group">
+			<label>PUC Renewal Date</label>
+			<input type="date" class="form-control date-picker-position" name="pucRenewalDate" [(ngModel)]="vehicleData.pucRenewalDate" #pucRenewalDate="ngModel" 
+			placeholder="PUC Renewal Date" [ngClass]="{ 'is-invalid': f.submitted && pucRenewalDate.invalid }" required />
+			<div *ngIf="f.submitted && pucRenewalDate.invalid" class="invalid-feedback">
+				<div *ngIf="pucRenewalDate.errors.required">PUC Renewal Date is required</div>
+			</div>
+			</div>
+			<div class="form-group">
+			<label>Service Period</label>
+			<input type="text" class="form-control " name="servicingPeriod" [(ngModel)]="vehicleData.servicingPeriod" #servicingPeriod="ngModel" 
+			placeholder="Service Period" [ngClass]="{ 'is-invalid': f.submitted && servicingPeriod.invalid }" required />
+			<div *ngIf="f.submitted && servicingPeriod.invalid" class="invalid-feedback">
+				<div *ngIf="servicingPeriod.errors.required">Service Period is required</div>
+			</div>
+			</div>
+			<div class="form-group">
+			<label>Last Service Date</label>
+			<input type="date" class="form-control date-picker-position" name="lastServicingDate" [(ngModel)]="vehicleData.lastServicingDate" #lastServicingDate="ngModel" 
+			placeholder="Last Service Date" [ngClass]="{ 'is-invalid': f.submitted && lastServicingDate.invalid }" required />
+			<div *ngIf="f.submitted && lastServicingDate.invalid" class="invalid-feedback">
+				<div *ngIf="lastServicingDate.errors.required">Last Service Date is required</div>
+			</div>
+			</div>
+			<div class="form-group">
+			<label>Average Running Limit Per Day</label>
+			<input type="text" class="form-control" name="averageRunningLimitPerDay" [(ngModel)]="vehicleData.averageRunningLimitPerDay" #averageRunningLimitPerDay="ngModel" 
+			placeholder="Average Running Limit Per Day" [ngClass]="{ 'is-invalid': f.submitted && averageRunningLimitPerDay.invalid }" required />
+			<div *ngIf="f.submitted && averageRunningLimitPerDay.invalid" class="invalid-feedback">
+				<div *ngIf="averageRunningLimitPerDay.errors.required">Average Running Limit Per Day is required</div>
+			</div>
+			</div>
+			<div class="form-group">
+			<label>Chasis Number</label>
+			<input type="text" class="form-control" name="chasisNumber" [(ngModel)]="vehicleData.chasisNumber" #chasisNumber="ngModel" 
+			placeholder="Chasis Number" [ngClass]="{ 'is-invalid': f.submitted && chasisNumber.invalid }" required />
+			<div *ngIf="f.submitted && chasisNumber.invalid" class="invalid-feedback">
+				<div *ngIf="chasisNumber.errors.required">Chasis Number is required</div>
+			</div>
+			</div>
+			<div class="form-group">
+			<label>Engine Number</label>
+			<input type="text" class="form-control" name="enginNumber" [(ngModel)]="vehicleData.enginNumber" #enginNumber="ngModel" 
+			placeholder="Engine Number" [ngClass]="{ 'is-invalid': f.submitted && enginNumber.invalid }" required />
+			<div *ngIf="f.submitted && enginNumber.invalid" class="invalid-feedback">
+				<div *ngIf="enginNumber.errors.required">Engine Number is required</div>
+			</div>
+			</div>
+			<div class="form-group">
+			<label>Active</label>
+			<input type="checkbox" name="isActive"  class="form-input text-right"  [(ngModel)]="vehicleData.isActive">
+			</div>
+		</div>
+		<div class="form-group form-control-footer">
+			<ion-button color="danger" class="button-width"  type="reset"  (click)="f.reset()">Reset</ion-button>
+			 <button class="btn btn-info btn-custom button-width" [disabled]="isLoadingData" style="margin-top: 8px">
+			   <ng-container *ngIf="!isLoadingData">
+				 Save Vehicle
+			   </ng-container>
+			   <ng-container *ngIf="isLoadingData">
+				 <span class="spinner-border spinner-border-sm"></span>
+				   Loading..
+			   </ng-container>
+			 </button>
+		   </div>
+	  </form>
+
+	  <form  class="container" *ngIf="!currentPage">
+		<div class="form-container">
+            <div class="form-group">
+              <label>Company Name</label>
+               <input name="companyName"  readonly [(ngModel)]="currentVehicleDetail.companyName" [disabled]="!isEdit" class="form-control" type="text" required 
+              placeholder="Enter Company Name" >
+            </div>
+			<div class="form-group">
+				<label >Vehicle Number</label>
+				  <input type="text" class="form-control" name="vehicleNumber" [(ngModel)]="currentVehicleDetail.vehicleNumber" />
+			  </div>
+            <div class="form-group">
+              <label>Vehicle Type</label>
+              <mat-form-field  appearance="fill" fxFlex="40" class="field-wrapper app-permission">
+                <mat-select [disabled]="!isEdit" name="vehicleType"  [(ngModel)]="currentVehicleDetail.vehicleType">
+                <mat-option *ngFor="let vehicle of vehicleTypeList" [value]="vehicle.vehicleType"> {{ vehicle.vehicleType}}</mat-option>
+                </mat-select>
+              </mat-form-field>
+            </div>
+            <div class="form-group">
+              <label>Model Name</label>
+              <input name="modelName"  [(ngModel)]="currentVehicleDetail.modelName" value="Indore" [disabled]="!isEdit" class="form-control"  type="text" tabindex="4" required>
+            </div>
+            <div class="form-group">
+              <label>Max Speed</label>
+              <input name="maxSpeed"  placeholder="Enter Max Speed"  [(ngModel)]="currentVehicleDetail.maxSpeed" [disabled]="!isEdit" class="form-control"  type="text" tabindex="4" required>
+            </div>
+            <div class="form-group">
+              <label> Fuel Type</label>
+                <mat-form-field   appearance="fill" fxFlex="40" class="field-wrapper app-permission">
+                  <mat-select [disabled]="!isEdit" name="fuelType"  [(ngModel)]="currentVehicleDetail.fuelType">
+                  <mat-option *ngFor="let fuel of fuelTypeList" [value]="fuel.fuelType"> {{ fuel.fuelType}}</mat-option>
+                  </mat-select>
+                </mat-form-field>
+            </div>
+            <div class="form-group">
+              <label> Tank Capacity</label>
+            <input name="tankCapacity" placeholder="Tank Capacity" [(ngModel)]="currentVehicleDetail.tankCapacity" [(ngModel)]="currentVehicleDetail.tankCapacity" [disabled]="!isEdit" type="text" class="form-control"  tabindex="5" required>
+            </div>
+            <div class="form-group">
+              <label>Engine Number</label>
+              <input name="enginNumber"  placeholder="Enter Engine Number" [(ngModel)]="currentVehicleDetail.enginNumber"  [disabled]="!isEdit" type="text" class="form-control"  tabindex="5" required>
+            </div>
+            <div class="form-group">
+              <label>Vehicle Manufacturing Company Name</label>
+              <input name="manufacturingCompany"  placeholder="Vehicle Manufacturing Company Name" 
+              [(ngModel)]="currentVehicleDetail.vehicleManufacturingCompanyName" [disabled]="!isEdit" class="form-control"  type="text" tabindex="4" required>
+            </div>
+              <div class="form-group">
+                <label>Purchase Year</label>
+                <input name="purchaseYear"  placeholder="Purchase Year"  [(ngModel)]="currentVehicleDetail.purchaseYear" [disabled]="!isEdit" type="date" class="form-control date-picker-position"  tabindex="5" required>
+              </div>
+              <div class="form-group">
+                <label>Idle Mileage</label>
+                <input name="idleMileage" placeholder="Idle Mileage"  [(ngModel)]="currentVehicleDetail.idleMileage" [disabled]="!isEdit" type="text" class="form-control"  tabindex="5" required>
+              </div>
+              <div class="form-group">
+                <label>Insurance Renewal Date</label>
+               <input type="date" name="insuranceRenewalDate" placeholder="Insurance Renewal Date"  [(ngModel)]="currentVehicleDetail.insuranceRenewalDate" [disabled]="!isEdit" class="form-control date-picker-position"  tabindex="5" required>
+              </div>
+              <div class="form-group">
+                <label>PUC Renewal Date</label>
+                <input type="date" name="pucRenewalDate"  placeholder="PUC Renewal Date" [(ngModel)]="currentVehicleDetail.pucRenewalDate " [disabled]="!isEdit" class="form-control date-picker-position"  tabindex="5" required>
+              </div>
+              <div class="form-group">
+                <label>Servicing Period</label>
+                <input name="servicingPeriod" placeholder="Servicing Period"  [(ngModel)]="currentVehicleDetail.servicingPeriod" [disabled]="!isEdit" type="text" class="form-control"  tabindex="5" required>
+              </div>
+              <div class="form-group">
+                <label>Last Servicing Date</label>
+                <input type="date"  name="lastServicingDate" placeholder="Last Servicing Date"   [(ngModel)]="currentVehicleDetail.lastServicingDate" [disabled]="!isEdit"  class="form-control date-picker-position"  tabindex="5" required>
+              </div>
+              <div class="form-group">
+                <label>Average Running Limit Per Day</label>
+                <input name="averageRunningLimitPerDay" placeholder="Average Running Limit Per Day"  [(ngModel)]="currentVehicleDetail.averageRunningLimitPerDay" [disabled]="!isEdit" type="text" class="form-control"  tabindex="5" required>
+              </div>
+              <div class="form-group">
+                <label>Chassis No</label>
+                <input name="chasisNumber"  placeholder="Chassis No" [(ngModel)]="currentVehicleDetail.chasisNumber"  [disabled]="!isEdit" type="text" class="form-control"  tabindex="5" required>
+              </div>
+		</div>
+      </form>
+</ion-content>
+<ion-footer class="ion-no-border d-flex animate__animated animate__fadeInUp" *ngIf="!currentPage">
+	<ion-button color="danger" size="large" shape="block" class="btn end"  (click)="deleteVehicle()">Delete</ion-button>
+	<ion-button color="success" size="large" shape="block" class="btn end"  *ngIf="!isEdit" (click)="toggleEditForm()">Edit</ion-button>
+	<ion-button color="success" size="large" shape="block" class="btn end"  *ngIf="isEdit" (click)="updateInfo()">Save</ion-button>
+</ion-footer>

@@ -1,0 +1,162 @@
+<ion-row>
+  <ion-col size="11" style="margin:-6px 1px -5px -8px">
+    <ion-searchbar [(ngModel)]="searchValue" #search [showCancelButton]="shouldShowCancel"
+      (ionInput)="onInput($event)" (ionClear)="onCancel($event)">
+    </ion-searchbar>
+  </ion-col>
+  <ion-col size="1" style="margin-left: -18px;" >
+    <ion-button (click)="redirectPageViaKey('add','')">
+      +
+    </ion-button>
+  </ion-col>
+</ion-row>
+<ion-row *ngIf="currentSlideIndex == '1'">
+  <mat-tab-group animationDuration="0ms" [(selectedIndex)]="defaultTabIndex"
+    (selectedTabChange)="tabChanged($event)">
+    <mat-tab label="All"></mat-tab>
+    <mat-tab label="Running"></mat-tab>
+    <mat-tab label="Idle"></mat-tab>
+    <mat-tab label="Stop"></mat-tab>
+  </mat-tab-group>
+</ion-row>
+<div class="overlay" *ngIf="isLoading">
+  <mat-progress-spinner color="primary" [diameter]="50" mode="indeterminate" class="spinner">
+  </mat-progress-spinner>
+</div>
+<div class="home_container">
+<ng-container *ngIf="!isLoading">
+  <ion-list lines="none" *ngFor="let list of dataList">
+    <ion-item class="animate__animated animate__fadeInUp">
+      <div class="item_inner">
+        <p>{{list.createDateTime | date}}</p>
+        <hr>
+        <ng-container *ngIf="currentSlideIndex == '1'">
+          <h2 class="d-flex" style="margin-bottom:6px;">Vehicle Number<span class="end">{{list.vehicleNumber}}
+            </span></h2>
+          <h2 class="d-flex" style="margin-bottom:6px;">Company 
+            <span class="end" *ngIf="list.company != null">{{list.company.companyName}}</span></h2>
+          <h2 class="d-flex" style="margin-bottom:6px;">Date <span class="end">{{list.pucRenewalDate}}</span></h2>
+          <h2 class="d-flex" style="margin-bottom:6px;">Vehicle Type <span class="end">{{list.vehicleType}}</span>
+          </h2>
+        </ng-container>
+        <ng-container *ngIf="currentSlideIndex == '0'">
+          <ion-grid>
+            <ion-row>
+              <ion-col col-md-6>
+                <h6 class="text-primary">Company Name</h6>
+              </ion-col>
+              <ion-col col-md-6>
+                <h6 class="text-right"> {{list.companyName}}</h6>
+              </ion-col>
+            </ion-row>
+            <ion-row>
+              <ion-col col-md-6>
+                <h6 class="text-primary">Email</h6>
+              </ion-col>
+              <ion-col col-md-6>
+                <h6 class="text-right">{{list.companyEmail}}</h6>
+              </ion-col>
+            </ion-row>
+            <ion-row>
+              <ion-col col-md-6>
+                <h6 class="text-primary">User Count</h6>
+              </ion-col>
+              <ion-col col-md-6>
+                <h6 class="text-right">{{list.userCount}}</h6>
+              </ion-col>
+            </ion-row>
+            <ion-row>
+              <ion-col col-md-6>
+                <h6 class="text-primary">Vehicle Count</h6>
+              </ion-col>
+              <ion-col col-md-6>
+                <h6 class="text-right">{{list.vehicleCount}}</h6>
+              </ion-col>
+            </ion-row>
+            <ion-row>
+              <ion-col col-md-6>
+                <h6 class="text-primary">Tracker Count</h6>
+              </ion-col>
+              <ion-col col-md-6>
+                <h6 class="text-right">{{list.trackerCount}}</h6>
+              </ion-col>
+            </ion-row>
+          </ion-grid>
+        </ng-container>
+        <ng-container *ngIf="currentSlideIndex == '2'">
+          <ion-grid *ngIf="list.company">
+            <ion-row>
+              <ion-col col-md-6>
+                <h6 class="text-primary">Name</h6>
+              </ion-col>
+              <ion-col col-md-6>
+                <h6 class="text-right"> {{list.groupName}}</h6>
+              </ion-col>
+            </ion-row>
+            <ion-row>
+              <ion-col col-md-6>
+                <h6 class="text-primary">Email</h6>
+              </ion-col>
+              <ion-col col-md-6>
+                <h6 class="text-right">{{list.company.companyEmail}}</h6>
+              </ion-col>
+            </ion-row>
+            <ion-row>
+              <ion-col col-md-6>
+                <h6 class="text-primary">Company</h6>
+              </ion-col>
+              <ion-col col-md-6>
+                <h6 class="text-right" > {{list.company.companyName}}</h6>
+              </ion-col>
+            </ion-row>
+            <ion-row>
+              <ion-col col-md-6>
+                <h6 class="text-primary">GST Number</h6>
+              </ion-col>
+              <ion-col col-md-6>
+                <h6 class="text-right">{{list.company.gstNumber}}</h6>
+              </ion-col>
+            </ion-row>
+            <ion-row>
+              <ion-col col-md-6>
+                <h6 class="text-primary">State</h6>
+              </ion-col>
+              <ion-col col-md-6>
+                <h6 class="text-right">{{list.company.state}}</h6>
+              </ion-col>
+            </ion-row>
+          </ion-grid>
+        </ng-container>
+        <hr>
+        <div>
+          <ion-row>
+            <ion-col  *ngIf="currentSlideIndex == '0' || currentSlideIndex == '2'">
+              <ion-badge *ngIf="list.isActive == 'active'"  color="success"><div class="lable-text">{{list.isActive}}</div></ion-badge>
+              <ion-badge *ngIf="list.isActive != 'active'" color="danger"><div class="lable-text">{{list.isActive}}</div></ion-badge>
+            </ion-col>
+            <ion-col  *ngIf="currentSlideIndex == '1'">
+              <ion-badge *ngIf="list.status == 'running'" color="success"><div class="lable-text">{{list.status}}</div></ion-badge>
+              <ion-badge *ngIf="list.status == 'idle'" color="warning"><div class="lable-text">{{list.status}}</div></ion-badge>
+              <ion-badge *ngIf="list.status == 'stop'" color="danger"><div class="lable-text">{{list.status}}</div></ion-badge>
+            </ion-col>
+            <ion-col>
+              <ion-button class="button-wrapper" (click)="redirectPageViaKey('',list)">
+                Detail
+              </ion-button>
+            </ion-col>
+            <ion-col>
+              <ion-button style="margin-left: 26px;" class="button-wrapper" color="danger"
+                (click)="presentAlertConfirm(list.id)">
+                Delete
+              </ion-button>
+            </ion-col>
+          </ion-row>
+        </div>
+      </div>
+    </ion-item>
+  </ion-list>
+  </ng-container>
+  <ng-template #loader>
+ 
+  </ng-template>
+</div>

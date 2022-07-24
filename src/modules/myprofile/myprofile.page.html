@@ -1,0 +1,39 @@
+<ion-header>
+	<ion-toolbar>
+		<ion-buttons slot="start">
+				<ion-back-button text="" icon="arrow-back-outline"></ion-back-button>
+		</ion-buttons>
+		<ion-title>
+			<span class="d-flex">
+				Profile
+			</span>
+		</ion-title>
+	</ion-toolbar>
+</ion-header>
+ 
+<ion-content fullscreen>
+	<div class="profile-img animate__animated animate__zoomIn">
+		<div class="img-box">
+			<img  class="logo-wrapper" [src]="companyLogo != '' ? companyLogo : 'assets/images/logo.png' " alt="logo">
+		</div>
+	</div>
+	<div class="form">
+		<ion-list lines="none">
+			<ion-row class="animate__animated animate__fadeInUp"> 
+				<ion-col size="12">
+					<ion-item lines="none">
+						<ion-label position="floating">Role</ion-label>
+						<ion-input type="text" [value]="currentUseData.username"></ion-input>
+					</ion-item>
+				</ion-col>
+			</ion-row>
+			<ion-item class="animate__animated animate__fadeInUp" lines="none">
+				<ion-label position="floating">Email</ion-label>
+				<ion-input type="email" [value]="currentUseData.email"></ion-input>
+			</ion-item>
+			<ion-item class="animate__animated animate__fadeInUp" lines="none" (click)="logoutUser()">
+				<ion-label>Logout</ion-label>
+			</ion-item>
+		</ion-list>
+	</div>
+</ion-content>

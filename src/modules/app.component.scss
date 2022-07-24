@@ -1,0 +1,86 @@
+@font-face {
+	font-family: 'Google Sans';
+	src: url('../assets/font/GoogleSans-Italic.woff2') format('woff2'),
+		url('../assets/font/GoogleSans-Italic.woff') format('woff');
+	font-weight: normal;
+	font-style: italic;
+}
+
+@font-face {
+	font-family: 'Google Sans';
+	src: url('../assets/font/GoogleSans-Regular.woff2') format('woff2'),
+		url('../assets/font/GoogleSans-Regular.woff') format('woff');
+	font-weight: normal;
+	font-style: normal;
+}
+
+@font-face {
+	font-family: 'Google Sans';
+	src: url('../assets/font/GoogleSans-BoldItalic.woff2') format('woff2'),
+		url('../assets/font/GoogleSans-BoldItalic.woff') format('woff');
+	font-weight: bold;
+	font-style: italic;
+}
+
+@font-face {
+	font-family: 'Google Sans';
+	src: url('../assets/font/GoogleSans-Bold.woff2') format('woff2'),
+		url('../assets/font/GoogleSans-Bold.woff') format('woff');
+	font-weight: bold;
+	font-style: normal;
+}
+
+@font-face {
+	font-family: 'Google Sans';
+	src: url('../assets/font/GoogleSans-MediumItalic.woff2') format('woff2'),
+		url('../assets/font/GoogleSans-MediumItalic.woff') format('woff');
+	font-weight: 500;
+	font-style: italic;
+}
+
+@font-face {
+	font-family: 'Google Sans';
+	src: url('../assets/font/GoogleSans-Medium.woff2') format('woff2'),
+		url('../assets/font/GoogleSans-Medium.woff') format('woff');
+	font-weight: 500;
+	font-style: normal;
+}
+
+*,
+body,
+html,
+p,
+span,
+h1,
+h2,
+h3,
+h4,
+h5,
+h6,
+strong,
+li {
+	--ion-font-family: 'Google Sans';
+	font-family: 'Google Sans';
+	//letter-spacing: .05rem;
+}
+
+// loader.component.scss
+
+.overlay {
+	position: fixed;
+	display: block;
+	width: 100%;
+	height: 100%;
+	top: 0;
+	left: 0;
+	background-color: rgba(74, 74, 74, .8);
+	z-index: 99999;
+   }
+   
+   .spinner {
+	position: absolute;
+	top: 50%;
+	left: 50%;
+	transform: translate(-50%, -50%);
+   }
+   

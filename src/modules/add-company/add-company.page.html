@@ -1,0 +1,206 @@
+<ion-header>
+	<ion-toolbar>
+		<ion-buttons slot="start">
+				<ion-back-button text="" icon="arrow-back-outline"></ion-back-button>
+		</ion-buttons>
+		<ion-title *ngIf="!currentPage">Edit Company</ion-title>
+		<ion-title *ngIf="currentPage">Add Company</ion-title>
+	</ion-toolbar>
+</ion-header>
+<div class="overlay" *ngIf="isLoading">
+  <mat-progress-spinner color="primary" [diameter]="50" mode="indeterminate" class="spinner">
+  </mat-progress-spinner>
+</div>
+<ion-content fullscreen *ngIf="!isLoading"> 
+  <form class="container"  #f="ngForm" *ngIf="currentPage">
+    <div class="form-group row">
+      <label class="col-sm-3 col-form-label">Name <span class="validation-symbol">*</span></label>
+      <div class="col-sm-9">
+        <input type="text" class="form-control" name="companyName" [(ngModel)]="companyAddData.companyName"
+          #companyName="ngModel" placeholder="Enter Company Name"
+          [ngClass]="{ 'is-invalid': f.submitted && companyName.invalid }" required />
+        <div *ngIf="f.submitted && companyName.invalid" class="invalid-feedback">
+          <div *ngIf="companyName.errors.required">Company Name is required</div>
+        </div>
+      </div>
+    </div>
+    <div class="form-group row">
+      <label class="col-sm-3 col-form-label"> Email <span class="validation-symbol">*</span></label>
+      <div class="col-sm-9">
+        <input type="email" name="email" class="form-control" placeholder="Enter Email"
+          [(ngModel)]="companyAddData.companyEmail" #companyEmail="ngModel"
+          [ngClass]="{ 'is-invalid': (f.submitted || companyEmail.touched)  && companyEmail.invalid}" email required>
+        <div *ngIf="f.submitted && companyEmail.invalid" class="invalid-feedback">
+          <div *ngIf="companyEmail.errors.required">Email is required</div>
+          <div *ngIf="companyEmail.errors.email">Must be a valid email address</div>
+        </div>
+      </div>
+    </div>
+    <div class="form-group row">
+      <label class="col-sm-3 col-form-label"> Number<b>(+91)</b> <span class="validation-symbol">*</span></label>
+      <div class="col-sm-9">
+        <input type="text" name="companyContactNumber" class="form-control" placeholder="Username"
+        aria-label="Username" [(ngModel)]="companyAddData.companyContactNumber" #companyContactNumber="ngModel"
+        placeholder="Enter Number" maxlength="10"
+        [ngClass]="{ 'is-invalid': f.submitted && companyContactNumber.invalid }" required>
+      <div *ngIf="f.submitted && companyContactNumber.invalid" class="invalid-feedback">
+        <div *ngIf="companyContactNumber.errors.required">Number is required</div>
+      </div>       
+     </div>
+    </div>
+    <div class="form-group row">
+      <label class="col-sm-3 col-form-label">Address Line1</label>
+      <div class="col-sm-9">
+        <input type="text" class="form-control" name="addressLine1" [(ngModel)]="companyAddData.addressLine1"
+          #addressLine1="ngModel" placeholder="Address Line1" />
+      </div>
+    </div>
+    <div class="form-group row">
+      <label class="col-sm-3 col-form-label">Address Line2</label>
+      <div class="col-sm-9">
+        <input type="text" class="form-control" name="addressLine2" [(ngModel)]="companyAddData.addressLine2"
+          #addressLine2="ngModel" placeholder="Address Line2" />
+      </div>
+    </div>
+    <div class="form-group row">
+      <label class="col-sm-3 col-form-label">City</label>
+      <div class="col-sm-9">
+        <input type="text" class="form-control" name="city" [(ngModel)]="companyAddData.city" #city="ngModel"
+          id="companyDetailAutocomplete" (keyup)="getStateAndCountryName()" placeholder="City" />
+      </div>
+    </div>
+
+    <div class="form-group row">
+      <label class="col-sm-3 col-form-label">State</label>
+      <div class="col-sm-9">
+        <input type="text" class="form-control" name="state" [(ngModel)]="companyAddData.state" #state="ngModel"
+          disabled placeholder="Enter state" />
+      </div>
+    </div>
+    <div class="form-group row">
+      <label class="col-sm-3 col-form-label">Country</label>
+      <div class="col-sm-9">
+        <input type="text" class="form-control" name="country" [(ngModel)]="companyAddData.country" #country="ngModel"
+          disabled placeholder="Country" />
+      </div>
+    </div>
+    <div class="form-group row">
+      <label class="col-sm-3 col-form-label">Pincode</label>
+      <div class="col-sm-9">
+        <input type="text" class="form-control" name="pinCode" [(ngModel)]="companyAddData.pincode" #pincode="ngModel"
+          placeholder="pincode" />
+      </div>
+    </div>
+    <div class="form-group row">
+      <label class="col-sm-3 col-form-label">GST Number <span class="validation-symbol">*</span></label>
+      <div class="col-sm-9">
+        <input type="text" class="form-control" name="gstNumber" [(ngModel)]="companyAddData.gstNumber"
+          #gstNumber="ngModel" placeholder="GST Number" [ngClass]="{ 'is-invalid': f.submitted && gstNumber.invalid }"
+          required />
+        <div *ngIf="f.submitted && gstNumber.invalid" class="invalid-feedback">
+          <div *ngIf="gstNumber.errors.required">GST Number is required</div>
+        </div>
+      </div>
+    </div>
+    <div class="form-group row">
+      <label class="col-sm-3 col-form-label">Company Domain</label>
+      <div class="col-sm-9">
+        <input type="text" class="form-control" name="companyDomain" [(ngModel)]="companyAddData.companyDomain"
+          #companyDomain="ngModel" placeholder="Enter Company Domain" />
+      </div>
+    </div>
+    <div class="form-group">
+      <label> Active</label>
+        <input type="checkbox" name="isActive" class="form-input text-right" [(ngModel)]="companyAddData.isActive">
+    </div>
+    <div class="form-group form-control-footer" *ngIf="currentPage">
+      <ion-button color="danger" class="button-width"  type="reset"  (click)="f.reset()">Reset</ion-button>
+        <button (click)="addVehicle(f)" class="btn btn-info btn-custom button-width mt-14" [disabled]="isLoadingData">
+          <ng-container *ngIf="!isLoadingData">
+            Save Company
+          </ng-container>
+          <ng-container *ngIf="isLoadingData">
+            <span class="spinner-border spinner-border-sm"></span>
+            Loading..
+          </ng-container>
+        </button>
+    </div>
+  </form>
+
+  <form  class="container" *ngIf="!currentPage">
+      <div class="col-sm-6">
+        <div class="form-group row">
+          <label>Company Name <span class="validation-symbol">*</span></label>
+          <strong>:</strong>
+          <input type="text" name="companyName" class="form-control" [disabled]="!isEdit"
+          [(ngModel)]="currentUserDetail.companyName"  #companyName="ngModel" required 
+          [ngClass]="{ 'is-invalid':isInvalidCompany }" (keyup)="removeValidation()">
+          <div *ngIf="isInvalidCompany" class="invalid-feedback">
+          <div>Company Name is required</div>
+          </div>
+        </div>
+        <div class="form-group row">
+          <label>Email <span class="validation-symbol">*</span></label>
+          <strong>:</strong>
+          <input type="email" name="email" class="form-control" [disabled]="!isEdit" placeholder="Enter Email"
+          [(ngModel)]="currentUserDetail.companyEmail" #companyEmail="ngModel" email required (keyup)="removeValidation()"
+          [ngClass]="{ 'is-invalid': isInvalidEmail }">
+          <div *ngIf="isInvalidEmail" class="invalid-feedback">
+            <div>Email is required</div>
+          </div>
+        </div>
+        <div class="form-group row">
+          <label>Number<b>(+91)</b> <span class="validation-symbol">*</span></label>
+          <strong>:</strong><input name="phoneNumber" maxlength="10" pattern="/^-?\d+\.?\d*$/" onKeyPress="if(this.value.length==10) return false;" [(ngModel)]="currentUserDetail.companyContactNumber" 
+          [disabled]="!isEdit" type="number" class="form-control"  tabindex="5" required>
+        </div>
+        <div class="form-group row">
+          <label>Address Line1</label>
+          <strong>:</strong><input name="addressLine1"  [(ngModel)]="currentUserDetail.addressLine1" [disabled]="!isEdit" class="form-control"  type="text" tabindex="4" required>
+        </div>
+        <div class="form-group row">
+          <label>Address Line2</label>
+          <strong>:</strong><input name="addressLine2"  [(ngModel)]="currentUserDetail.addressLine2" [disabled]="!isEdit" class="form-control"  type="text" tabindex="4" required>
+        </div>
+        <div class="form-group row">
+          <label>City</label>
+          <strong>:</strong><input name="city" id="companyDetailAutocomplete" (keyup)="getStateAndCountryName()"  [(ngModel)]="currentUserDetail.city" [disabled]="!isEdit" class="form-control"  type="text" tabindex="4" required>
+        </div>
+      </div>
+        <div class="col-sm-6">
+          <div class="form-group row">
+            <label>State</label>
+            <input name="state"  [(ngModel)]="currentUserDetail.state" [disabled]="!isEdit" class="form-control"  type="text" tabindex="4" required>
+          </div>
+          <div class="form-group row">
+            <label>Country</label>
+            <input name="country"  [(ngModel)]="currentUserDetail.country" [disabled]="!isEdit" class="form-control" readonly  type="text" tabindex="4" required>
+          </div>
+          <div class="form-group row">
+            <label>GST Number <span class="validation-symbol">*</span></label>
+            <input name="gstNumber"  [(ngModel)]="currentUserDetail.gstNumber" [disabled]="!isEdit" class="form-control"
+              type="text" tabindex="4" required  [ngClass]="{ 'is-invalid': isInvalidGstNumber }" (keyup)="removeValidation()">
+            <div *ngIf="isInvalidGstNumber" class="invalid-feedback">
+              <div>GST Number is required</div>
+            </div>
+          </div>
+          <div class="form-group row">
+            <label>pincode</label>
+            <input name="pincode"  [(ngModel)]="currentUserDetail.pincode" [disabled]="!isEdit" class="form-control"  type="text" tabindex="4" required>
+          </div>
+          <div class="form-group row">
+            <label>Company Domain</label>
+            <input name="companyDomain"  [(ngModel)]="currentUserDetail.companyDomain" [disabled]="!isEdit" class="form-control"  type="text" tabindex="4" required>
+          </div>
+          <div class="form-group row">
+            <label>Is Active</label>
+            <input  readonly [disabled]="!isEdit" class="form-input text-right" type="checkbox" name="isActive"> 
+          </div>
+          </div>
+    </form>
+</ion-content>
+<ion-footer class="ion-no-border d-flex animate__animated animate__fadeInUp" *ngIf="!currentPage">
+    <ion-button color="danger" size="large" shape="block" class="btn end"  (click)="presentAlertConfirm()">Delete</ion-button>
+    <ion-button color="success" size="large" shape="block" class="btn end"  *ngIf="!isEdit" (click)="toggleEditForm()">Edit</ion-button>
+    <ion-button color="success" size="large" shape="block" class="btn end"  *ngIf="isEdit" (click)="updateCompay()">Save</ion-button>
+</ion-footer>

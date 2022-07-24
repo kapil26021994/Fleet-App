@@ -1,0 +1,7 @@
+{
+  "name": "quick_pay",
+  "integrations": {
+    "cordova": {}
+  },
+  "type": "angular"
+}

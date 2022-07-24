@@ -1,0 +1,87 @@
+<ion-header>
+    <ion-toolbar>
+        <ion-buttons slot="start">
+            <ion-back-button text="" icon="arrow-back-outline"></ion-back-button>
+        </ion-buttons>
+        <ion-title>
+            <div class="d-flex">
+                <div class="icon_container end">
+                    <span class="icon_box" style="padding-left: 11px; padding-right: 11px;"><img src="assets/imgs/ic_cart.png">
+                        <ion-badge>2</ion-badge>
+                    </span>
+                </div>
+            </div>
+        </ion-title>
+    </ion-toolbar>
+
+</ion-header>
+
+<ion-content class="bg_color" fullscreen>
+    <div class="banner">
+        <ion-slides pager="true" loop="true">
+            <ion-slide>
+                <div class="img_box center_img">
+                    <img src="assets/imgs/f2.png">
+                </div>
+            </ion-slide>
+            <ion-slide>
+                <div class="img_box center_img">
+                    <img src="assets/imgs/f2.png">
+                </div>
+            </ion-slide>
+            <ion-slide>
+                <div class="img_box center_img">
+                    <img src="assets/imgs/f2.png">
+                </div>
+            </ion-slide>
+        </ion-slides>
+    </div>
+
+
+    <div class="form">
+        <ion-list lines="none">
+            <ion-item class="animate__animated animate__fadeInUp">
+                <div class="item_inner">
+                    <h2>Spyworn Blue Formal Fit cotton shirt Apple cut</h2>
+                    <h4 class="d-flex">Spyworn Suits
+                        <span class="end">
+                            <span class="favorite_icon" [ngClass]="favorite_icon ? 'end active' : 'end'" (click)="toggleSaveIcon1()">
+                                <ion-icon class="zmdi zmdi-favorite-outline"></ion-icon>
+                                <ion-icon class="zmdi zmdi-favorite"></ion-icon>
+                            </span>
+                            <ion-icon class="zmdi zmdi-share ion-text-end"></ion-icon>
+                        </span>
+                    </h4>
+                </div>
+            </ion-item>
+            <ion-item class="animate__animated animate__fadeInUp">
+                <ion-label position="fixed">{{'select_size' | translate}}</ion-label>
+                <ion-select class="ion-text-end" interface="popover" mode="ios" [(ngModel)]="select_size">
+                    <ion-select-option value="m">M</ion-select-option>
+                    <ion-select-option value="l">L</ion-select-option>
+                    <ion-select-option value="XL">XL</ion-select-option>
+                    <ion-select-option value="XXL">XXL</ion-select-option>
+                </ion-select>
+            </ion-item>
+            <ion-item class="animate__animated animate__fadeInUp">
+                <ion-label position="fixed">{{'select_color' | translate}}</ion-label>
+                <ion-select class="ion-text-end" interface="popover" mode="ios" [(ngModel)]="select_color">
+                    <ion-select-option value="light_blue">Light Blue</ion-select-option>
+                    <ion-select-option value="dark_blue">Dark Blue</ion-select-option>
+                    <ion-select-option value="white">White</ion-select-option>
+                    <ion-select-option value="black">Black</ion-select-option>
+                </ion-select>
+            </ion-item>
+            <ion-item class="animate__animated animate__fadeInUp">
+                <p>
+                    Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book. It has survived not only five centuries,
+                </p>
+            </ion-item>
+        </ion-list>
+    </div>
+</ion-content>
+
+<ion-footer class="ion-no-border d-flex animate__animated animate__fadeInUp">
+    <h2>$9.90 </h2>
+    <ion-button size="large" shape="block" class="btn end">{{'add_to_cart' | translate}}</ion-button>
+</ion-footer>

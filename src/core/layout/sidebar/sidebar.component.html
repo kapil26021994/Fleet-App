@@ -1,0 +1,20 @@
+<nav class="sidebar sidebar-offcanvas" id="sidebar">
+  <ul class="nav">
+    <li class="nav-item" *ngFor="let menu of sideMenuList" [ngClass]="{ 'active': menu.active }" (click)="currentMenuDetail(menu,'')">
+      <a class="nav-link" [routerLink]="menu.routerLink"  [attr.aria-expanded]="menu.collapsed" (click)="menu.collapsed = !menu.collapsed" > 
+      <i [ngClass]="menu.icon"></i>
+        <span class="menu-title">{{menu.lableName}}</span>
+          <i class="menu-arrow" *ngIf="menu.list != undefined && menu.list.length>0"></i>
+      </a>
+       <div class="collapse" id="driver" [ngbCollapse]="!menu.collapsed" *ngIf="menu.list != undefined && menu.list.length>0">
+          <ul class="nav flex-column sub-menu">
+            <li class="nav-item" *ngFor="let child_menu of menu.list"  (click)="currentMenuDetail(menu,child_menu)" > 
+            <a class="nav-link" [ngClass]="{ 'active': child_menu.active }"  [routerLink]="child_menu.routerLink"  [attr.aria-expanded]="child_menu.collapsed" (click)="child_menu.collapsed = !child_menu.collapsed">
+              {{child_menu.name}}
+            </a>
+            </li>
+          </ul>
+      </div>
+    </li>
+  </ul>
+</nav>
